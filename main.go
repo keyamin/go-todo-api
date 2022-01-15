@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 )
 
 var bookmarks []Bookmark
@@ -11,20 +12,11 @@ type Bookmark struct {
 }
 
 func main() {
-	var path string
-LOOP:
-	for {
-		fmt.Scan(&path)
-		switch path {
-		case "post":
-			PostBookmark()
-		case "delete":
-			DeleteBookmark()
-		default:
-			break LOOP
-		}
-		fmt.Println(bookmarks)
-	}
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, "sample")
+	})
+
+	http.ListenAndServe(":8080", nil)
 }
 
 func PostBookmark() {
