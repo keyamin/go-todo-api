@@ -1,38 +1,28 @@
 package main
 
 import (
-	"fmt"
+	"encoding/json"
 	"net/http"
 )
 
-var bookmarks []Bookmark
-
 type Bookmark struct {
-	Url string
+	Url string `json:"url"`
 }
 
 func main() {
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "sample")
+	sampleBookmark := Bookmark{"https://youtube.com"}
+	http.HandleFunc("/bookmark", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+		w.Header().Set("Access-Control-Allow-Methods", "GET,POST")
+		if r.Method == "GET" {
+			w.WriteHeader(http.StatusOK)
+			s, err := json.Marshal(sampleBookmark)
+			if err != nil {
+				panic(err)
+			}
+			w.Write(s)
+		}
 	})
 
 	http.ListenAndServe(":8080", nil)
-}
-
-func PostBookmark() {
-	var url string
-	fmt.Scan(&url)
-	bookmarks = append(bookmarks, Bookmark{url})
-}
-
-func DeleteBookmark() {
-	fmt.Println("Select index you want to delete...")
-	for index, value := range bookmarks {
-		fmt.Printf("%d: %s\n", index+1, value.Url)
-	}
-	var index int
-	fmt.Scan(&index)
-	index -= 1
-	bookmarks = bookmarks[:index+copy(bookmarks[index:], bookmarks[index+1:])]
-	fmt.Println("deleted!!")
 }
