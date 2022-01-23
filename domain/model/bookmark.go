@@ -3,8 +3,8 @@ package model
 import "errors"
 
 type Bookmark struct {
-	ID  int
-	Url Url
+	ID  int `gorm:"primaryKey"`
+	Url Url `gorm:"embedded"`
 }
 
 func NewBookmark(url string) (*Bookmark, error) {
@@ -34,7 +34,7 @@ func (b *Bookmark) SetTitle(url string) error {
 
 // value object
 type Url struct {
-	url string
+	Url string
 }
 
 func NewUrl(url string) (*Url, error) {
@@ -46,7 +46,7 @@ func NewUrl(url string) (*Url, error) {
 }
 
 func (u *Url) GetUrl() string {
-	return u.url
+	return u.Url
 }
 
 func (u *Url) SetUrl(url string) (*Url, error) {
