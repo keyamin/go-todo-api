@@ -5,7 +5,8 @@ import (
 	"bookshelf/infrastructure"
 	"bookshelf/interface/controller"
 	"bookshelf/usecase"
-	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -13,6 +14,8 @@ func main() {
 	usecase := usecase.NewBookmarkUsecase(repository)
 	controller := controller.NewBookmarkController(usecase)
 
-	http.HandleFunc("/bookmark", controller.Post())
-	http.ListenAndServe(":8080", nil)
+	r := gin.Default()
+	r.POST("/bookmark", controller.Post)
+
+	r.Run(":8080")
 }
