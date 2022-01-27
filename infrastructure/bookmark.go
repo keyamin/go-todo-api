@@ -11,12 +11,23 @@ type BookmarkRepositoryImpl struct {
 	Conn *gorm.DB
 }
 
+type (
+	Bookmark struct {
+		ID  int `gorm:"primaryKey"`
+		Url string
+	}
+)
+
 func NewBookmarkRepository(c *gorm.DB) repository.BookmarkRepository {
 	return &BookmarkRepositoryImpl{Conn: c}
 }
 
 func (br *BookmarkRepositoryImpl) Create(bookmark *model.Bookmark) (*model.Bookmark, error) {
-	if err := br.Conn.Table("bookmarks").Create(&bookmark).Error; err != nil {
+	entity := &Bookmark{
+		ID:  bookmark.ID,
+		Url: string(bookmark.Url),
+	}
+	if err := br.Conn.Table("bookmarks").Create(entity).Error; err != nil {
 		return nil, err
 	}
 

@@ -3,18 +3,15 @@ package usecase
 import (
 	"bookshelf/domain/model"
 	"bookshelf/domain/repository"
+	"bookshelf/domain/usecase"
 )
-
-type BookmarkUsecase interface {
-	Create(url string) (*model.Bookmark, error)
-}
 
 type BookmarkUsecaseImpl struct {
 	bookmarkRepo repository.BookmarkRepository
 }
 
-func NewBookmarkUsecase(bookmarkRepo repository.BookmarkRepository) *BookmarkUsecaseImpl {
-	return &BookmarkUsecaseImpl{bookmarkRepo}
+func NewBookmarkUsecase(bookmarkRepo repository.BookmarkRepository) usecase.BookmarkUsecase {
+	return &BookmarkUsecaseImpl{bookmarkRepo: bookmarkRepo}
 }
 
 func (b *BookmarkUsecaseImpl) Create(url string) (*model.Bookmark, error) {

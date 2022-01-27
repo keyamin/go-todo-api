@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"bookshelf/usecase"
+	"bookshelf/domain/usecase"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -38,7 +38,7 @@ func (b *BookmarkControllerImpl) Post(c *gin.Context) {
 	}
 	created := &responseBookmark{
 		ID:  createdModel.ID,
-		Url: createdModel.Url.GetUrl(),
+		Url: string(createdModel.Url),
 	}
 
 	c.JSON(http.StatusCreated, created)

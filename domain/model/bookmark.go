@@ -1,59 +1,29 @@
 package model
 
-import "errors"
+import (
+	"bookshelf/domain/value"
+)
 
 type Bookmark struct {
-	ID  int `gorm:"primaryKey"`
-	Url Url `gorm:"embedded"`
+	ID  int
+	Url value.Url
 }
 
+// 新しいBookmarkモデルを生成します
 func NewBookmark(url string) (*Bookmark, error) {
-	urlObj, err := NewUrl(url)
+	urlObj, err := value.NewUrl(url)
 	if err != nil {
 		return nil, err
 	}
-
-	bookmark := &Bookmark{
-		ID:  0,
-		Url: *urlObj,
-	}
-
-	return bookmark, nil
+	return &Bookmark{ID: 0, Url: urlObj}, nil
 }
 
-func (b *Bookmark) SetTitle(url string) error {
-	recreated, err := b.Url.SetUrl(url)
+// Urlを編集します
+func (b *Bookmark) SetUrl(url string) error {
+	replaced, err := value.NewUrl(url)
 	if err != nil {
 		return err
 	}
-
-	b.Url = *recreated
-
+	b.Url = replaced
 	return nil
-}
-
-// value object
-type Url struct {
-	Url string
-}
-
-func NewUrl(url string) (*Url, error) {
-	if url == "" {
-		return nil, errors.New("URL cannot be blank")
-	}
-
-	return &Url{url}, nil
-}
-
-func (u *Url) GetUrl() string {
-	return u.Url
-}
-
-func (u *Url) SetUrl(url string) (*Url, error) {
-	recreated, err := NewUrl(url)
-	if err != nil {
-		return nil, err
-	}
-
-	return recreated, nil
 }
