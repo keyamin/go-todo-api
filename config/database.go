@@ -17,7 +17,7 @@ func NewDB() *gorm.DB {
 	password := "admin-password"
 	port := "5432"
 
-	migratePath := "file://tools/db/migration"
+	migratePath := "file://tool/db/migration"
 
 	dsnForORM := fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=disable", host, port, user, dbname, password)
 	dsnForMigrate := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable", user, password, host, port, dbname)

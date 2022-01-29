@@ -1,17 +1,17 @@
 package model
 
 import (
-	"bookshelf/domain/value"
+	"errors"
 )
 
 type Bookmark struct {
 	ID  int
-	Url value.Url
+	Url Url
 }
 
 // 新しいBookmarkモデルを生成します
 func NewBookmark(url string) (*Bookmark, error) {
-	urlObj, err := value.NewUrl(url)
+	urlObj, err := NewUrl(url)
 	if err != nil {
 		return nil, err
 	}
@@ -20,10 +20,20 @@ func NewBookmark(url string) (*Bookmark, error) {
 
 // Urlを編集します
 func (b *Bookmark) SetUrl(url string) error {
-	replaced, err := value.NewUrl(url)
+	replaced, err := NewUrl(url)
 	if err != nil {
 		return err
 	}
 	b.Url = replaced
 	return nil
+}
+
+type Url string
+
+func NewUrl(url string) (Url, error) {
+	if url == "" {
+		return "", errors.New("URL cannot be blank")
+	}
+
+	return Url(url), nil
 }

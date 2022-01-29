@@ -1,4 +1,4 @@
-package infrastructure
+package postgresql
 
 import (
 	"bookshelf/domain/model"

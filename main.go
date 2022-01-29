@@ -2,7 +2,7 @@ package main
 
 import (
 	"bookshelf/config"
-	"bookshelf/infrastructure"
+	"bookshelf/infra/repository/postgresql"
 	"bookshelf/interface/controller"
 	"bookshelf/usecase"
 
@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	repository := infrastructure.NewBookmarkRepository(config.NewDB())
+	repository := postgresql.NewBookmarkRepository(config.NewDB())
 	usecase := usecase.NewBookmarkUsecase(repository)
 	controller := controller.NewBookmarkController(usecase)
 
