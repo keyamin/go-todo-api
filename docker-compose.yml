@@ -1,11 +1,13 @@
-version: '3'
+version: "3"
 services:
   db:
     image: postgres:14.1-alpine
     ports:
       - 5432:5432
     volumes:
-      - bookshelf:/var/lib/postgresql/data
+      - type: volume
+        source: bookshelf
+        target: /var/lib/postgresql/data
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin-password
