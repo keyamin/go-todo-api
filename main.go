@@ -1,21 +1,21 @@
 package main
 
 import (
-	"bookshelf/config"
-	"bookshelf/infra/repository/postgresql"
-	"bookshelf/interface/controller"
-	"bookshelf/usecase"
+	"go-todo-api/config"
+	"go-todo-api/infra/repository/postgresql"
+	"go-todo-api/interface/controller"
+	"go-todo-api/usecase"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	repository := postgresql.NewBookmarkRepository(config.NewDB())
-	usecase := usecase.NewBookmarkUsecase(repository)
-	controller := controller.NewBookmarkController(usecase)
+	repository := postgresql.NewTodoRepository(config.NewDB())
+	usecase := usecase.NewTodoUsecase(repository)
+	controller := controller.NewTodoController(usecase)
 
 	r := gin.Default()
-	r.POST("/bookmark", controller.Post)
+	r.POST("/todos", controller.Post)
 
 	r.Run(":8080")
 }

@@ -6,7 +6,7 @@ services:
       - 5432:5432
     volumes:
       - type: volume
-        source: bookshelf
+        source: go-todo-api
         target: /var/lib/postgresql/data
     environment:
       POSTGRES_USER: admin
@@ -14,5 +14,5 @@ services:
       LANG: ja_JP.utf8
       TZ: Asia/Tokyo
 volumes:
-  bookshelf:
+  go-todo-api:
     driver: local
